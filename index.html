@@ -18,6 +18,7 @@ body {
   font-family: 'Courier New', monospace;
   color: #fff;
   overflow: hidden;
+  position: relative;
 }
 
 .container {
@@ -25,6 +26,16 @@ body {
   max-width: 420px;
   padding: 20px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* força o botão sempre visível */
+  height: 100vh;
+  overflow: hidden;
+}
+
+.text-wrapper {
+  flex: 1;
+  overflow-y: auto; /* permite scroll se o texto for grande */
 }
 
 .typing {
@@ -34,6 +45,8 @@ body {
   border-right: 2px solid #fff;
   padding-right: 6px;
   animation: blink 1s infinite;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 @keyframes blink {
@@ -43,7 +56,7 @@ body {
 
 .heart {
   display: none;
-  margin-top: 35px;
+  margin-top: 15px;
   font-size: 5.5em;
   animation: pulse 1.4s infinite;
 }
@@ -56,7 +69,7 @@ body {
 
 .btn {
   display: none;
-  margin-top: 35px;
+  margin-top: 15px;
   padding: 12px 28px;
   border-radius: 30px;
   border: 1px solid #fff;
@@ -92,18 +105,20 @@ audio {
   opacity: 0.01;
 }
 
-.flower {
+/* Flores com raiz emergindo */
+.flower-root {
   position: fixed;
-  bottom: -100px;
-  font-size: 2.5em;
+  bottom: 0;
+  font-size: 2em;
   opacity: 0;
-  animation: floatUp 4s forwards;
+  animation: growUp 4s forwards;
+  text-align: center;
 }
 
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(0.5); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: translateY(-700px) scale(1.2); opacity: 0; }
+@keyframes growUp {
+  0% { transform: translateY(100px) scale(0); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-150px) scale(1.2); opacity: 1; }
 }
 </style>
 </head>
@@ -114,7 +129,9 @@ audio {
 </div>
 
 <div class="container">
-  <div id="text" class="typing"></div>
+  <div class="text-wrapper">
+    <div id="text" class="typing"></div>
+  </div>
   <div id="heart" class="heart">❤️</div>
   <button id="btn" class="btn">toca aqui 💗</button>
 </div>
@@ -136,7 +153,7 @@ const startEl = document.getElementById("start");
 const intro = document.getElementById("intro");
 const love = document.getElementById("love");
 
-// Texto completo e romântico
+// Texto romântico completo
 const message =
   "pov: hoje é o seu aniversário… ❤️\n\n" +
   "eu pensei em mil jeitos de te surpreender,\n" +
@@ -156,20 +173,21 @@ const message =
 
 let i = 0;
 
-// Função do typewriter com velocidade variável
+// Typewriter com velocidade variável
 function typeWriter() {
   if (i < message.length) {
     textEl.innerHTML += message.charAt(i);
     i++;
-    // aumenta a pausa em momentos fofos
     let delay = 55;
     if (message.charAt(i-1) === "❤️" || message.charAt(i-1) === "💗" || message.charAt(i-1) === "\n") delay = 120;
     setTimeout(typeWriter, delay);
+    // gera flores durante a digitação da intro
+    if (i % 50 === 0) createFlowerRoot();
+    textEl.scrollTop = textEl.scrollHeight; // scroll automático
   } else {
     heartEl.style.display = "block";
     btnEl.style.display = "inline-block";
-    // cria flores após terminar digitação
-    createFlowers(10);
+    createFlowerRoot(5); // flores finais
   }
 }
 
@@ -183,7 +201,7 @@ startEl.addEventListener("click", () => {
 
 // botão toca musica.mp3 com crossfade
 btnEl.addEventListener("click", () => {
-  const fadeDuration = 2000; // 2 segundos
+  const fadeDuration = 2000;
   const steps = 20;
   let step = 0;
 
@@ -212,22 +230,20 @@ btnEl.addEventListener("click", () => {
     "você é meu amor, minha inspiração e a mulher da minha vida.";
 
   btnEl.style.display = "none";
-  createFlowers(15); // mais flores ao tocar o botão
+  createFlowerRoot(10);
 });
 
-// função que cria flores animadas
-function createFlowers(count) {
+// Função que cria flores com raiz emergindo
+function createFlowerRoot(count = 1){
   const colors = ["🌹","🌸","🌺","🌼","💐"];
   for (let j=0;j<count;j++){
     const flower = document.createElement("div");
-    flower.className = "flower";
+    flower.className = "flower-root";
     flower.style.left = Math.random() * window.innerWidth + "px";
-    flower.style.fontSize = (20 + Math.random()*50) + "px";
-    flower.style.animationDuration = (3 + Math.random()*3) + "s";
+    flower.style.fontSize = (25 + Math.random()*40) + "px";
     flower.innerText = colors[Math.floor(Math.random()*colors.length)];
     document.body.appendChild(flower);
-    // remove após animar
-    setTimeout(() => flower.remove(), 5000);
+    setTimeout(()=>flower.remove(), 5000);
   }
 }
 </script>
