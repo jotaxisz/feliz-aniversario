@@ -7,7 +7,6 @@
 
 <style>
 * { -webkit-tap-highlight-color: transparent; margin:0; padding:0; box-sizing:border-box;}
-
 body {
   height: 100vh;
   background: #000;
@@ -26,7 +25,7 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* botão sempre embaixo */
+  justify-content: flex-end;
   height: 100vh;
 }
 
@@ -75,7 +74,6 @@ body {
   cursor: pointer;
 }
 
-/* Start overlay */
 #start {
   position: fixed;
   top:0;
@@ -94,10 +92,8 @@ body {
   padding: 20px;
 }
 
-/* Audio */
 audio { position: fixed; bottom: 10px; left: 10px; width:1px; height:1px; opacity:0.01; }
 
-/* SVG flores animadas */
 .flower-bouquet {
   position: absolute;
   bottom: 0;
@@ -128,7 +124,6 @@ audio { position: fixed; bottom: 10px; left: 10px; width:1px; height:1px; opacit
   <button id="btn" class="btn">toca aqui 💗</button>
 </div>
 
-<!-- músicas -->
 <audio id="intro" preload="auto" loop>
   <source src="intro.mp3" type="audio/mpeg">
 </audio>
@@ -145,7 +140,7 @@ const startEl = document.getElementById("start");
 const intro = document.getElementById("intro");
 const love = document.getElementById("love");
 
-// Texto curto (aparece na intro)
+// Texto curto da intro (vai parar no final)
 const message = 
 "hoje é o seu aniversário… ❤️\n\n" +
 "eu pensei em mil jeitos de te surpreender,\n" +
@@ -155,20 +150,18 @@ const message =
 "seu presente ainda não chegou, mas fiz isso aqui para não passar em branco.\n" +
 "eu te amo mais do que tudo, hoje e sempre.";
 
-let i=0;
+let i = 0;
 
-// Typewriter com scroll automático
+// Typewriter da intro
 function typeWriter(){
-  if(i<message.length){
+  if(i < message.length){
     textEl.innerHTML += message.charAt(i);
     i++;
-    let delay=55;
-    if(message.charAt(i-1)==="❤️" || message.charAt(i-1)==="💗" || message.charAt(i-1)==="\n") delay=120;
+    let delay = 55;
+    if(message.charAt(i-1)==="❤️" || message.charAt(i-1)==="\n") delay=120;
     setTimeout(typeWriter, delay);
     textEl.parentElement.scrollTop = textEl.scrollHeight;
-
-    // cria bouquet emergindo a cada 80 caracteres
-    if(i%80===0) createBouquet();
+    if(i % 80 === 0) createBouquet();
   } else {
     heartEl.style.display="block";
     btnEl.style.display="inline-block";
@@ -184,7 +177,7 @@ startEl.addEventListener("click", ()=>{
   typeWriter();
 });
 
-// botão crossfade e texto longo
+// clique no botão mostra texto longo e faz crossfade
 btnEl.addEventListener("click", ()=>{
   const fadeDuration = 2000;
   const steps = 20;
