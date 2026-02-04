@@ -26,7 +26,7 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* botão sempre embaixo */
+  justify-content: flex-end;
   height: 100vh;
 }
 
@@ -75,7 +75,6 @@ body {
   cursor: pointer;
 }
 
-/* Start overlay */
 #start {
   position: fixed;
   top:0;
@@ -94,10 +93,8 @@ body {
   padding: 20px;
 }
 
-/* Audio */
 audio { position: fixed; bottom: 10px; left: 10px; width:1px; height:1px; opacity:0.01; }
 
-/* SVG flores animadas */
 .flower-bouquet {
   position: absolute;
   bottom: 0;
@@ -128,11 +125,10 @@ audio { position: fixed; bottom: 10px; left: 10px; width:1px; height:1px; opacit
   <button id="btn" class="btn">toca aqui 💗</button>
 </div>
 
-<!-- músicas -->
 <audio id="intro" preload="auto" loop>
   <source src="intro.mp3" type="audio/mpeg">
 </audio>
-<audio id="love" preload="auto">
+<audio id="love" preload="auto" loop>
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
@@ -145,83 +141,80 @@ const startEl = document.getElementById("start");
 const intro = document.getElementById("intro");
 const love = document.getElementById("love");
 
-// Texto completo romântico
 const message =
-  "pov: hoje é o seu aniversário… ❤️\n\n" +
+  "hoje é o seu aniversário… ❤️\n\n" + 
   "eu pensei em mil jeitos de te surpreender,\n" +
   "mas nenhum é maior do que o amor que eu sinto por você.\n\n" +
   "então eu fiz isso,\n" +
   "só pra te lembrar que você é a única mulher que mais amei na vida.\n\n" +
-  "seu presente ainda não chegou, mas fiz isso aqui para não passar em branco.\n" +
-  "eu te amo muito e quero que você seja sempre o amor da minha vida.\n" +
-  "quero que a gente construa sonhos juntos, que um dia seja mãe dos nossos filhos,\n" +
-  "que possamos rir, chorar, crescer e aprender lado a lado.\n" +
-  "que cada abraço, cada beijo e cada olhar nos faça mais próximos a cada dia.\n\n" +
-  "feliz aniversário, meu amor 💗\n\n" +
-  "que a sua vida seja leve,\n" +
-  "que todos os seus sonhos se realizem,\n" +
-  "e que eu possa estar ao seu lado em todos os seus sorrisos e dias difíceis.\n\n" +
-  "eu te amo mais do que tudo, hoje e sempre.";
+  "seu presente ainda não chegou, mas fiz isso aqui para não passar em branco.\n";
 
-let i=0;
+let i = 0;
 
-// Typewriter com scroll automático
-function typeWriter(){
-  if(i<message.length){
+function typeWriter() {
+  if (i < message.length) {
     textEl.innerHTML += message.charAt(i);
     i++;
-    let delay=55;
-    if(message.charAt(i-1)==="❤️" || message.charAt(i-1)==="💗" || message.charAt(i-1)==="\n") delay=120;
+    let delay = 55;
+    if (message.charAt(i-1)==="❤️" || message.charAt(i-1)==="💗" || message.charAt(i-1)==="\n") delay = 120;
     setTimeout(typeWriter, delay);
     textEl.parentElement.scrollTop = textEl.scrollHeight;
 
-    // cria bouquet emergindo a cada 80 caracteres
-    if(i%80===0) createBouquet();
+    if (i % 80 === 0) createBouquet();
   } else {
-    heartEl.style.display="block";
-    btnEl.style.display="inline-block";
+    heartEl.style.display = "block";
+    btnEl.style.display = "inline-block";
     createBouquet();
   }
 }
 
-// clique inicial toca intro
 startEl.addEventListener("click", ()=>{
-  intro.volume=0.3;
+  intro.volume = 0.3;
   intro.play().catch(err=>console.log("erro intro:",err));
-  startEl.style.display="none";
+  startEl.style.display = "none";
   typeWriter();
 });
 
-// botão crossfade
 btnEl.addEventListener("click", ()=>{
   const fadeDuration = 2000;
   const steps = 20;
-  let step=0;
-  love.volume=0;
-  love.currentTime=0;
+  let step = 0;
+  love.volume = 0;
+  love.currentTime = 0;
   love.play().catch(err=>console.log("erro love:",err));
 
-  const fadeInterval=setInterval(()=>{
+  const fadeInterval = setInterval(()=>{
     step++;
-    intro.volume = Math.max(0,0.3*(1-step/steps));
+    intro.volume = Math.max(0, 0.3*(1-step/steps));
     love.volume = Math.min(1, step/steps);
     if(step>=steps){ clearInterval(fadeInterval); intro.pause(); intro.currentTime=0; }
   }, fadeDuration/steps);
 
-  textEl.innerHTML=
+  textEl.innerHTML =
     "feliz aniversário, meu amor 💗\n\n" +
     "que a sua vida seja leve,\n" +
     "que seus sonhos se realizem,\n" +
     "e que eu possa estar ao seu lado em todos os seus sorrisos e dias difíceis.\n\n" +
     "eu te amo muito e quero passar todos os dias da minha vida com você,\n" +
     "construindo nossa história, nossos sonhos e nossa família.\n" +
-    "você é meu amor, minha inspiração e a mulher da minha vida.";
+    "você é meu amor, minha inspiração e a mulher da minha vida.\n" +
+    "você é uma garota muito especial para mim, você me alegra em dias cinzas.\n" +
+    "eu realmente te amo muito de verdade, desculpa não ser uma pessoa boa para ti.\n" +
+    "quero que você saiba que eu te esperaria 10 anos só para te dar um beijo e abraço.\n" +
+    "cada momento ao seu lado é um pequeno universo que vale a pena existir.\n" +
+    "que a vida continue nos presenteando com instantes assim, cheios de riso, cumplicidade e amor.\n" +
+    "sua inteligência, seu jeito de ver a vida e de encarar cada desafio me inspiram todos os dias.\n" +
+    "eu admiro cada detalhe seu, cada gesto, cada pensamento.\n" +
+    "eu quero que seja você a mãe dos meus filhos, eu anseio por ti, eu quero te abraçar e não largar mais.\n" +
+    "desculpe não estar presente nesse momento tão importante da sua vida, uma nova fase.\n" +
+    "que você aproveite seu dia, prometo que logo logo estarei aí para te abraçar muito.\n" +
+    "obrigado por tudo mesmo, você me anima muito, você não tem ideia o quão eu amo você.\n" +
+    "beijos meu amor, eu te amo dms, curte muito por mim. \n";
 
   btnEl.style.display="none";
   createBouquet(2);
 });
 
-// Função criar bouquet SVG animado
 function createBouquet(count=1){
   for(let j=0;j<count;j++){
     const svgNS="http://www.w3.org/2000/svg";
