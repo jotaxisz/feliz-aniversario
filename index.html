@@ -140,8 +140,8 @@ const startEl = document.getElementById("start");
 const intro = document.getElementById("intro");
 const love = document.getElementById("love");
 
-// Texto curto da intro (vai parar no final)
-const message = 
+// --- TEXTOS ---
+const introText = 
 "hoje é o seu aniversário… ❤️\n\n" +
 "eu pensei em mil jeitos de te surpreender,\n" +
 "mas nenhum é maior do que o amor que eu sinto por você.\n\n" +
@@ -150,57 +150,7 @@ const message =
 "seu presente ainda não chegou, mas fiz isso aqui para não passar em branco.\n" +
 "eu te amo mais do que tudo, hoje e sempre.";
 
-let i = 0;
-
-// Typewriter da intro
-function typeWriter(){
-  if(i < message.length){
-    textEl.innerHTML += message.charAt(i);
-    i++;
-    let delay = 55;
-    if(message.charAt(i-1)==="❤️" || message.charAt(i-1)==="\n") delay=120;
-    setTimeout(typeWriter, delay);
-    textEl.parentElement.scrollTop = textEl.scrollHeight;
-    if(i % 80 === 0) createBouquet();
-  } else {
-    heartEl.style.display="block";
-    btnEl.style.display="inline-block";
-    createBouquet();
-  }
-}
-
-// clique inicial toca intro
-startEl.addEventListener("click", ()=>{
-  intro.volume=0.3;
-  intro.play().catch(err=>console.log("erro intro:",err));
-  startEl.style.display="none";
-  typeWriter();
-});
-
-// clique no botão mostra texto longo e faz crossfade
-btnEl.addEventListener("click", ()=>{
-  const fadeDuration = 2000;
-  const steps = 20;
-  let step=0;
-  love.volume=0;
-  love.currentTime=0;
-  love.play().catch(err=>console.log("erro love:",err));
-
-  const fadeInterval=setInterval(()=>{
-    step++;
-    intro.volume = Math.max(0,0.3*(1-step/steps));
-    love.volume = Math.min(1, step/steps);
-    if(step>=steps){ clearInterval(fadeInterval); intro.pause(); intro.currentTime=0; }
-  }, fadeDuration/steps);
-
-  // Texto longo completo
-  textEl.innerHTML = `
-feliz aniversário, meu amor 💗
-
-que a sua vida seja leve,
-que seus sonhos se realizem,
-e que eu possa estar ao seu lado em todos os seus sorrisos e dias difíceis.
-
+const longText = `
 eu te amo muito e quero passar todos os dias da minha vida com você,
 construindo nossa história, nossos sonhos e nossa família.
 você é meu amor, minha inspiração e a mulher da minha vida.
@@ -218,11 +168,62 @@ Obrigado por tudo mesmo, você me anima muito, você não tem ideia do quão eu 
 Beijos meu amor, eu te amo demais, curte muito por mim.
 `;
 
-  btnEl.style.display="none";
-  createBouquet(2);
+// --- TYPEWRITER ---
+function typeWriter(text, callback){
+  let i = 0;
+  function type(){
+    if(i < text.length){
+      textEl.innerHTML += text.charAt(i);
+      i++;
+      let delay = 55;
+      if(text.charAt(i-1)==="❤️" || text.charAt(i-1)==="\n") delay=120;
+      setTimeout(type, delay);
+      textEl.parentElement.scrollTop = textEl.scrollHeight;
+      if(i % 80 === 0) createBouquet();
+    } else if(callback){
+      callback();
+    }
+  }
+  type();
+}
+
+// --- INICIO ---
+startEl.addEventListener("click", ()=>{
+  intro.volume=0.3;
+  intro.play().catch(err=>console.log("erro intro:",err));
+  startEl.style.display="none";
+
+  typeWriter(introText, ()=>{
+    heartEl.style.display="block";
+    btnEl.style.display="inline-block";
+    createBouquet();
+  });
 });
 
-// Função criar bouquet SVG animado
+// --- BOTAO ---
+btnEl.addEventListener("click", ()=>{
+  btnEl.style.display="none";
+
+  // crossfade
+  const fadeDuration = 2000;
+  const steps = 20;
+  let step=0;
+  love.volume=0;
+  love.currentTime=0;
+  love.play().catch(err=>console.log("erro love:",err));
+  const fadeInterval=setInterval(()=>{
+    step++;
+    intro.volume = Math.max(0,0.3*(1-step/steps));
+    love.volume = Math.min(1, step/steps);
+    if(step>=steps){ clearInterval(fadeInterval); intro.pause(); intro.currentTime=0; }
+  }, fadeDuration/steps);
+
+  // limpa texto anterior e inicia typewriter do texto longo
+  textEl.innerHTML = "";
+  typeWriter(longText, ()=>createBouquet(3));
+});
+
+// --- BOUQUET ---
 function createBouquet(count=1){
   for(let j=0;j<count;j++){
     const svgNS="http://www.w3.org/2000/svg";
