@@ -65,7 +65,6 @@
       font-size: 1em;
     }
 
-    /* overlay inicial "toque na tela" */
     #start {
       position: fixed;
       top:0;
@@ -84,7 +83,6 @@
       padding: 20px;
     }
 
-    /* players invisíveis */
     audio {
       position: fixed;
       bottom: 10px;
@@ -107,14 +105,14 @@
     <button id="btn" class="btn">toca aqui 💗</button>
   </div>
 
-  <!-- 🎵 música inicial -->
+  <!-- música inicial -->
   <audio id="intro" preload="auto" loop>
     <source src="intro.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- 🎵 música principal -->
+  <!-- música principal do botão -->
   <audio id="love" preload="auto">
-    <source src="amor.mp3" type="audio/mpeg">
+    <source src="musica.mp3" type="audio/mpeg">
   </audio>
 
   <script>
@@ -146,22 +144,22 @@
       }
     }
 
-    // clique inicial para tocar intro
+    // clique inicial toca intro
     startEl.addEventListener("click", () => {
       intro.volume = 0.3;
-      intro.play().catch(() => {});
-      startEl.style.display = "none"; // remove overlay
+      intro.play().catch(err => console.log("erro intro:", err));
+      startEl.style.display = "none";
       typeWriter();
     });
 
-    // botão troca música
+    // botão toca musica.mp3
     btnEl.addEventListener("click", () => {
       intro.pause();
       intro.currentTime = 0;
 
       love.volume = 1;
       love.currentTime = 0;
-      love.play().catch(() => {});
+      love.play().catch(err => console.log("erro love:", err));
 
       textEl.innerHTML =
         "feliz aniversário, meu amor 💗\n\n" +
