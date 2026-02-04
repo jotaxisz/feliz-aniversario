@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>feliz aniversário ❤️</title>
 
   <style>
@@ -65,11 +65,14 @@
       font-size: 1em;
     }
 
-    .hint {
-      position: absolute;
-      bottom: 25px;
-      font-size: 0.8em;
-      opacity: 0.6;
+    /* player escondido (fallback) */
+    audio {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      width: 1px;
+      height: 1px;
+      opacity: 0.01;
     }
   </style>
 </head>
@@ -81,11 +84,10 @@
     <button id="btn" class="btn">toca aqui 💗</button>
   </div>
 
-  <div class="hint">feito especialmente pra você 💗</div>
-
-  <!-- 🎵 áudio -->
-  <audio id="music" preload="auto">
+  <!-- 🎵 áudio REAL -->
+  <audio id="music" controls preload="auto">
     <source src="musica.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
   </audio>
 
   <script>
@@ -114,27 +116,13 @@
       }
     }
 
-    // 👇 CLIQUE REAL = ÁUDIO LIBERADO (ANDROID SAFE)
     btnEl.addEventListener("click", () => {
       music.currentTime = 0;
       music.volume = 1;
 
-      music.play().catch(() => {
-        console.log("navegador bloqueou o áudio");
+      music.play().then(() => {
+        console.log("🎶 música tocando");
+      }).catch(err => {
+        alert("Toque no player de música no canto da tela 💗");
+        console.log(err);
       });
-
-      textEl.innerHTML =
-        "feliz aniversário, meu amor 💗\n\n" +
-        "que a sua vida seja leve,\n" +
-        "que seus sonhos se realizem,\n" +
-        "e que eu possa estar ao seu lado\n" +
-        "em todos os seus sorrisos e dias difíceis.\n\n" +
-        "eu te amo.";
-
-      btnEl.style.display = "none";
-    });
-
-    typeWriter();
-  </script>
-</body>
-</html>
