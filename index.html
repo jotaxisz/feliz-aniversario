@@ -6,10 +6,9 @@
 <title>feliz aniversário ❤️</title>
 
 <style>
-* { -webkit-tap-highlight-color: transparent; }
+* { -webkit-tap-highlight-color: transparent; margin:0; padding:0; box-sizing:border-box;}
 
 body {
-  margin: 0;
   height: 100vh;
   background: #000;
   display: flex;
@@ -25,17 +24,16 @@ body {
   width: 100%;
   max-width: 420px;
   padding: 20px;
-  text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* força o botão sempre visível */
+  justify-content: flex-end; /* botão sempre embaixo */
   height: 100vh;
-  overflow: hidden;
 }
 
 .text-wrapper {
   flex: 1;
-  overflow-y: auto; /* permite scroll se o texto for grande */
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 .typing {
@@ -44,15 +42,13 @@ body {
   white-space: pre-line;
   border-right: 2px solid #fff;
   padding-right: 6px;
-  animation: blink 1s infinite;
-  max-height: 70vh;
-  overflow-y: auto;
 }
 
 @keyframes blink {
   0%, 50% { border-color: #fff; }
   51%, 100% { border-color: transparent; }
 }
+.typing { animation: blink 1s infinite; }
 
 .heart {
   display: none;
@@ -60,7 +56,6 @@ body {
   font-size: 5.5em;
   animation: pulse 1.4s infinite;
 }
-
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.15); }
@@ -76,8 +71,11 @@ body {
   background: transparent;
   color: #fff;
   font-size: 1em;
+  z-index: 2;
+  cursor: pointer;
 }
 
+/* Start overlay */
 #start {
   position: fixed;
   top:0;
@@ -96,37 +94,31 @@ body {
   padding: 20px;
 }
 
-audio {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  width: 1px;
-  height: 1px;
-  opacity: 0.01;
-}
+/* Audio */
+audio { position: fixed; bottom: 10px; left: 10px; width:1px; height:1px; opacity:0.01; }
 
-/* Flores com raiz emergindo */
-.flower-root {
-  position: fixed;
+/* SVG flores animadas */
+.flower-bouquet {
+  position: absolute;
   bottom: 0;
-  font-size: 2em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 200px;
   opacity: 0;
-  animation: growUp 4s forwards;
-  text-align: center;
+  animation: growBouquet 3s forwards;
 }
 
-@keyframes growUp {
-  0% { transform: translateY(100px) scale(0); opacity: 0; }
-  30% { opacity: 1; }
-  100% { transform: translateY(-150px) scale(1.2); opacity: 1; }
+@keyframes growBouquet {
+  0% { transform: translateX(-50%) translateY(100px) scale(0); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
 }
 </style>
 </head>
 
 <body>
-<div id="start">
-  toque na tela para começar 🎵
-</div>
+<div id="start">toque na tela para começar 🎵</div>
 
 <div class="container">
   <div class="text-wrapper">
@@ -136,10 +128,10 @@ audio {
   <button id="btn" class="btn">toca aqui 💗</button>
 </div>
 
+<!-- músicas -->
 <audio id="intro" preload="auto" loop>
   <source src="intro.mp3" type="audio/mpeg">
 </audio>
-
 <audio id="love" preload="auto">
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
@@ -153,7 +145,7 @@ const startEl = document.getElementById("start");
 const intro = document.getElementById("intro");
 const love = document.getElementById("love");
 
-// Texto romântico completo
+// Texto completo romântico
 const message =
   "pov: hoje é o seu aniversário… ❤️\n\n" +
   "eu pensei em mil jeitos de te surpreender,\n" +
@@ -171,56 +163,52 @@ const message =
   "e que eu possa estar ao seu lado em todos os seus sorrisos e dias difíceis.\n\n" +
   "eu te amo mais do que tudo, hoje e sempre.";
 
-let i = 0;
+let i=0;
 
-// Typewriter com velocidade variável
-function typeWriter() {
-  if (i < message.length) {
+// Typewriter com scroll automático
+function typeWriter(){
+  if(i<message.length){
     textEl.innerHTML += message.charAt(i);
     i++;
-    let delay = 55;
-    if (message.charAt(i-1) === "❤️" || message.charAt(i-1) === "💗" || message.charAt(i-1) === "\n") delay = 120;
+    let delay=55;
+    if(message.charAt(i-1)==="❤️" || message.charAt(i-1)==="💗" || message.charAt(i-1)==="\n") delay=120;
     setTimeout(typeWriter, delay);
-    // gera flores durante a digitação da intro
-    if (i % 50 === 0) createFlowerRoot();
-    textEl.scrollTop = textEl.scrollHeight; // scroll automático
+    textEl.parentElement.scrollTop = textEl.scrollHeight;
+
+    // cria bouquet emergindo a cada 80 caracteres
+    if(i%80===0) createBouquet();
   } else {
-    heartEl.style.display = "block";
-    btnEl.style.display = "inline-block";
-    createFlowerRoot(5); // flores finais
+    heartEl.style.display="block";
+    btnEl.style.display="inline-block";
+    createBouquet();
   }
 }
 
 // clique inicial toca intro
-startEl.addEventListener("click", () => {
-  intro.volume = 0.3;
-  intro.play().catch(err => console.log("erro intro:", err));
-  startEl.style.display = "none";
+startEl.addEventListener("click", ()=>{
+  intro.volume=0.3;
+  intro.play().catch(err=>console.log("erro intro:",err));
+  startEl.style.display="none";
   typeWriter();
 });
 
-// botão toca musica.mp3 com crossfade
-btnEl.addEventListener("click", () => {
+// botão crossfade
+btnEl.addEventListener("click", ()=>{
   const fadeDuration = 2000;
   const steps = 20;
-  let step = 0;
+  let step=0;
+  love.volume=0;
+  love.currentTime=0;
+  love.play().catch(err=>console.log("erro love:",err));
 
-  love.volume = 0;
-  love.currentTime = 0;
-  love.play().catch(err => console.log("erro love:", err));
-
-  const fadeInterval = setInterval(() => {
+  const fadeInterval=setInterval(()=>{
     step++;
-    intro.volume = Math.max(0, 0.3 * (1 - step / steps));
-    love.volume = Math.min(1, step / steps);
-    if (step >= steps) {
-      clearInterval(fadeInterval);
-      intro.pause();
-      intro.currentTime = 0;
-    }
-  }, fadeDuration / steps);
+    intro.volume = Math.max(0,0.3*(1-step/steps));
+    love.volume = Math.min(1, step/steps);
+    if(step>=steps){ clearInterval(fadeInterval); intro.pause(); intro.currentTime=0; }
+  }, fadeDuration/steps);
 
-  textEl.innerHTML =
+  textEl.innerHTML=
     "feliz aniversário, meu amor 💗\n\n" +
     "que a sua vida seja leve,\n" +
     "que seus sonhos se realizem,\n" +
@@ -229,21 +217,29 @@ btnEl.addEventListener("click", () => {
     "construindo nossa história, nossos sonhos e nossa família.\n" +
     "você é meu amor, minha inspiração e a mulher da minha vida.";
 
-  btnEl.style.display = "none";
-  createFlowerRoot(10);
+  btnEl.style.display="none";
+  createBouquet(2);
 });
 
-// Função que cria flores com raiz emergindo
-function createFlowerRoot(count = 1){
-  const colors = ["🌹","🌸","🌺","🌼","💐"];
-  for (let j=0;j<count;j++){
-    const flower = document.createElement("div");
-    flower.className = "flower-root";
-    flower.style.left = Math.random() * window.innerWidth + "px";
-    flower.style.fontSize = (25 + Math.random()*40) + "px";
-    flower.innerText = colors[Math.floor(Math.random()*colors.length)];
-    document.body.appendChild(flower);
-    setTimeout(()=>flower.remove(), 5000);
+// Função criar bouquet SVG animado
+function createBouquet(count=1){
+  for(let j=0;j<count;j++){
+    const svgNS="http://www.w3.org/2000/svg";
+    const svg=document.createElementNS(svgNS,"svg");
+    svg.setAttribute("class","flower-bouquet");
+    svg.setAttribute("width","120");
+    svg.setAttribute("height","200");
+    svg.innerHTML=`<circle cx="60" cy="180" r="0" fill="transparent">
+    <animate attributeName="r" from="0" to="10" dur="3s" fill="freeze"/>
+    </circle>
+    <circle cx="50" cy="160" r="0" fill="red">
+    <animate attributeName="r" from="0" to="10" dur="3s" fill="freeze"/>
+    </circle>
+    <circle cx="70" cy="160" r="0" fill="pink">
+    <animate attributeName="r" from="0" to="10" dur="3s" fill="freeze"/>
+    </circle>`;
+    document.body.appendChild(svg);
+    setTimeout(()=>svg.remove(),4000);
   }
 }
 </script>
