@@ -1,188 +1,235 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>feliz aniversário ❤️</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<title>feliz aniversário ❤️</title>
 
-  <style>
-    * { -webkit-tap-highlight-color: transparent; }
+<style>
+* { -webkit-tap-highlight-color: transparent; }
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Courier New', monospace;
-      color: #fff;
-      overflow: hidden;
-    }
+body {
+  margin: 0;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Courier New', monospace;
+  color: #fff;
+  overflow: hidden;
+}
 
-    .container {
-      width: 100%;
-      max-width: 420px;
-      padding: 20px;
-      text-align: center;
-    }
+.container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  text-align: center;
+}
 
-    .typing {
-      font-size: 1.35em;
-      line-height: 1.6em;
-      white-space: pre-line;
-      border-right: 2px solid #fff;
-      padding-right: 6px;
-      animation: blink 1s infinite;
-    }
+.typing {
+  font-size: 1.35em;
+  line-height: 1.6em;
+  white-space: pre-line;
+  border-right: 2px solid #fff;
+  padding-right: 6px;
+  animation: blink 1s infinite;
+}
 
-    @keyframes blink {
-      0%, 50% { border-color: #fff; }
-      51%, 100% { border-color: transparent; }
-    }
+@keyframes blink {
+  0%, 50% { border-color: #fff; }
+  51%, 100% { border-color: transparent; }
+}
 
-    .heart {
-      display: none;
-      margin-top: 35px;
-      font-size: 5.5em;
-      animation: pulse 1.4s infinite;
-    }
+.heart {
+  display: none;
+  margin-top: 35px;
+  font-size: 5.5em;
+  animation: pulse 1.4s infinite;
+}
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-      100% { transform: scale(1); }
-    }
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
 
-    .btn {
-      display: none;
-      margin-top: 35px;
-      padding: 12px 28px;
-      border-radius: 30px;
-      border: 1px solid #fff;
-      background: transparent;
-      color: #fff;
-      font-size: 1em;
-    }
+.btn {
+  display: none;
+  margin-top: 35px;
+  padding: 12px 28px;
+  border-radius: 30px;
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  font-size: 1em;
+}
 
-    #start {
-      position: fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background:#000;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      color:#fff;
-      cursor:pointer;
-      font-size:1.2em;
-      z-index:10;
-      text-align:center;
-      padding: 20px;
-    }
+#start {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  cursor:pointer;
+  font-size:1.2em;
+  z-index:10;
+  text-align:center;
+  padding: 20px;
+}
 
-    audio {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      width: 1px;
-      height: 1px;
-      opacity: 0.01;
-    }
-  </style>
+audio {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: 1px;
+  height: 1px;
+  opacity: 0.01;
+}
+
+.flower {
+  position: fixed;
+  bottom: -100px;
+  font-size: 2.5em;
+  opacity: 0;
+  animation: floatUp 4s forwards;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-700px) scale(1.2); opacity: 0; }
+}
+</style>
 </head>
 
 <body>
-  <div id="start">
-    toque na tela para começar 🎵
-  </div>
+<div id="start">
+  toque na tela para começar 🎵
+</div>
 
-  <div class="container">
-    <div id="text" class="typing"></div>
-    <div id="heart" class="heart">❤️</div>
-    <button id="btn" class="btn">toca aqui 💗</button>
-  </div>
+<div class="container">
+  <div id="text" class="typing"></div>
+  <div id="heart" class="heart">❤️</div>
+  <button id="btn" class="btn">toca aqui 💗</button>
+</div>
 
-  <!-- música inicial -->
-  <audio id="intro" preload="auto" loop>
-    <source src="intro.mp3" type="audio/mpeg">
-  </audio>
+<audio id="intro" preload="auto" loop>
+  <source src="intro.mp3" type="audio/mpeg">
+</audio>
 
-  <!-- música principal do botão -->
-  <audio id="love" preload="auto">
-    <source src="musica.mp3" type="audio/mpeg">
-  </audio>
+<audio id="love" preload="auto">
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
-  <script>
-    const textEl = document.getElementById("text");
-    const heartEl = document.getElementById("heart");
-    const btnEl = document.getElementById("btn");
-    const startEl = document.getElementById("start");
+<script>
+const textEl = document.getElementById("text");
+const heartEl = document.getElementById("heart");
+const btnEl = document.getElementById("btn");
+const startEl = document.getElementById("start");
 
-    const intro = document.getElementById("intro");
-    const love = document.getElementById("love");
+const intro = document.getElementById("intro");
+const love = document.getElementById("love");
 
-    const message =
-      "pov: hoje é o seu aniversário… ❤️\n\n" +
-      "eu pensei em mil jeitos de te surpreender,\n" +
-      "mas nenhum é maior do que o amor que eu sinto por você.\n\n" +
-      "então eu fiz isso,\n" +
-      "só pra te lembrar que você é única.";
+// Texto completo e romântico
+const message =
+  "pov: hoje é o seu aniversário… ❤️\n\n" +
+  "eu pensei em mil jeitos de te surpreender,\n" +
+  "mas nenhum é maior do que o amor que eu sinto por você.\n\n" +
+  "então eu fiz isso,\n" +
+  "só pra te lembrar que você é a única mulher que mais amei na vida.\n\n" +
+  "seu presente ainda não chegou, mas fiz isso aqui para não passar em branco.\n" +
+  "eu te amo muito e quero que você seja sempre o amor da minha vida.\n" +
+  "quero que a gente construa sonhos juntos, que um dia seja mãe dos nossos filhos,\n" +
+  "que possamos rir, chorar, crescer e aprender lado a lado.\n" +
+  "que cada abraço, cada beijo e cada olhar nos faça mais próximos a cada dia.\n\n" +
+  "feliz aniversário, meu amor 💗\n\n" +
+  "que a sua vida seja leve,\n" +
+  "que todos os seus sonhos se realizem,\n" +
+  "e que eu possa estar ao seu lado em todos os seus sorrisos e dias difíceis.\n\n" +
+  "eu te amo mais do que tudo, hoje e sempre.";
 
-    let i = 0;
+let i = 0;
 
-    function typeWriter() {
-      if (i < message.length) {
-        textEl.innerHTML += message.charAt(i);
-        i++;
-        setTimeout(typeWriter, 55);
-      } else {
-        heartEl.style.display = "block";
-        btnEl.style.display = "inline-block";
-      }
+// Função do typewriter com velocidade variável
+function typeWriter() {
+  if (i < message.length) {
+    textEl.innerHTML += message.charAt(i);
+    i++;
+    // aumenta a pausa em momentos fofos
+    let delay = 55;
+    if (message.charAt(i-1) === "❤️" || message.charAt(i-1) === "💗" || message.charAt(i-1) === "\n") delay = 120;
+    setTimeout(typeWriter, delay);
+  } else {
+    heartEl.style.display = "block";
+    btnEl.style.display = "inline-block";
+    // cria flores após terminar digitação
+    createFlowers(10);
+  }
+}
+
+// clique inicial toca intro
+startEl.addEventListener("click", () => {
+  intro.volume = 0.3;
+  intro.play().catch(err => console.log("erro intro:", err));
+  startEl.style.display = "none";
+  typeWriter();
+});
+
+// botão toca musica.mp3 com crossfade
+btnEl.addEventListener("click", () => {
+  const fadeDuration = 2000; // 2 segundos
+  const steps = 20;
+  let step = 0;
+
+  love.volume = 0;
+  love.currentTime = 0;
+  love.play().catch(err => console.log("erro love:", err));
+
+  const fadeInterval = setInterval(() => {
+    step++;
+    intro.volume = Math.max(0, 0.3 * (1 - step / steps));
+    love.volume = Math.min(1, step / steps);
+    if (step >= steps) {
+      clearInterval(fadeInterval);
+      intro.pause();
+      intro.currentTime = 0;
     }
+  }, fadeDuration / steps);
 
-    // clique inicial toca intro
-    startEl.addEventListener("click", () => {
-      intro.volume = 0.3; // volume inicial mais baixo
-      intro.play().catch(err => console.log("erro intro:", err));
-      startEl.style.display = "none";
-      typeWriter();
-    });
+  textEl.innerHTML =
+    "feliz aniversário, meu amor 💗\n\n" +
+    "que a sua vida seja leve,\n" +
+    "que seus sonhos se realizem,\n" +
+    "e que eu possa estar ao seu lado em todos os seus sorrisos e dias difíceis.\n\n" +
+    "eu te amo muito e quero passar todos os dias da minha vida com você,\n" +
+    "construindo nossa história, nossos sonhos e nossa família.\n" +
+    "você é meu amor, minha inspiração e a mulher da minha vida.";
 
-    // botão toca musica.mp3 com crossfade
-    btnEl.addEventListener("click", () => {
-      const fadeDuration = 2000; // 2 segundos
-      const steps = 20; // número de passos do fade
-      let step = 0;
+  btnEl.style.display = "none";
+  createFlowers(15); // mais flores ao tocar o botão
+});
 
-      love.volume = 0;
-      love.currentTime = 0;
-      love.play().catch(err => console.log("erro love:", err));
-
-      const fadeInterval = setInterval(() => {
-        step++;
-        intro.volume = Math.max(0, 0.3 * (1 - step / steps));
-        love.volume = Math.min(1, step / steps);
-        if (step >= steps) {
-          clearInterval(fadeInterval);
-          intro.pause();
-          intro.currentTime = 0;
-        }
-      }, fadeDuration / steps);
-
-      textEl.innerHTML =
-        "feliz aniversário, meu amor 💗\n\n" +
-        "que a sua vida seja leve,\n" +
-        "que seus sonhos se realizem,\n" +
-        "e que eu possa estar ao seu lado\n" +
-        "em todos os seus sorrisos e dias difíceis.\n\n" +
-        "eu te amo.";
-
-      btnEl.style.display = "none";
-    });
-  </script>
+// função que cria flores animadas
+function createFlowers(count) {
+  const colors = ["🌹","🌸","🌺","🌼","💐"];
+  for (let j=0;j<count;j++){
+    const flower = document.createElement("div");
+    flower.className = "flower";
+    flower.style.left = Math.random() * window.innerWidth + "px";
+    flower.style.fontSize = (20 + Math.random()*50) + "px";
+    flower.style.animationDuration = (3 + Math.random()*3) + "s";
+    flower.innerText = colors[Math.floor(Math.random()*colors.length)];
+    document.body.appendChild(flower);
+    // remove após animar
+    setTimeout(() => flower.remove(), 5000);
+  }
+}
+</script>
 </body>
 </html>
