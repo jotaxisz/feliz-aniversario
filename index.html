@@ -125,6 +125,7 @@ audio { position: fixed; bottom: 10px; left: 10px; width:1px; height:1px; opacit
   <button id="btn" class="btn">toca aqui 💗</button>
 </div>
 
+<!-- músicas -->
 <audio id="intro" preload="auto" loop>
   <source src="intro.mp3" type="audio/mpeg">
 </audio>
@@ -141,6 +142,7 @@ const startEl = document.getElementById("start");
 const intro = document.getElementById("intro");
 const love = document.getElementById("love");
 
+// Texto da intro
 const message =
   "hoje é o seu aniversário… ❤️\n\n" + 
   "eu pensei em mil jeitos de te surpreender,\n" +
@@ -149,71 +151,96 @@ const message =
   "só pra te lembrar que você é a única mulher que mais amei na vida.\n\n" +
   "seu presente ainda não chegou, mas fiz isso aqui para não passar em branco.\n";
 
-let i = 0;
+let i=0;
 
-function typeWriter() {
-  if (i < message.length) {
+// Typewriter da intro
+function typeWriter(){
+  if(i<message.length){
     textEl.innerHTML += message.charAt(i);
     i++;
-    let delay = 55;
-    if (message.charAt(i-1)==="❤️" || message.charAt(i-1)==="💗" || message.charAt(i-1)==="\n") delay = 120;
+    let delay=55;
+    if(message.charAt(i-1)==="❤️" || message.charAt(i-1)==="💗" || message.charAt(i-1)==="\n") delay=120;
     setTimeout(typeWriter, delay);
     textEl.parentElement.scrollTop = textEl.scrollHeight;
 
-    if (i % 80 === 0) createBouquet();
+    if(i%80===0) createBouquet();
   } else {
-    heartEl.style.display = "block";
-    btnEl.style.display = "inline-block";
+    heartEl.style.display="block";
+    btnEl.style.display="inline-block";
     createBouquet();
   }
 }
 
+// Clique inicial toca intro
 startEl.addEventListener("click", ()=>{
-  intro.volume = 0.3;
+  intro.volume=0.3;
   intro.play().catch(err=>console.log("erro intro:",err));
-  startEl.style.display = "none";
+  startEl.style.display="none";
   typeWriter();
 });
 
+// Texto final completo
+const finalMessage =
+  "feliz aniversário, meu amor 💗\n\n" +
+  "que a sua vida seja leve,\n" +
+  "que seus sonhos se realizem,\n" +
+  "e que eu possa estar ao seu lado em todos os seus sorrisos e dias difíceis.\n\n" +
+  "eu te amo muito e quero passar todos os dias da minha vida com você,\n" +
+  "construindo nossa história, nossos sonhos e nossa família.\n" +
+  "você é meu amor, minha inspiração e a mulher da minha vida.\n" +
+  "você é uma garota muito especial para mim, você me alegra em dias cinzas.\n" +
+  "eu realmente te amo muito de verdade, desculpa não ser uma pessoa boa para ti.\n" +
+  "quero que você saiba que eu te esperaria 10 anos só para te dar um beijo e abraço.\n" +
+  "cada momento ao seu lado é um pequeno universo que vale a pena existir.\n" +
+  "que a vida continue nos presenteando com instantes assim, cheios de riso, cumplicidade e amor.\n" +
+  "sua inteligência, seu jeito de ver a vida e de encarar cada desafio me inspiram todos os dias.\n" +
+  "eu admiro cada detalhe seu, cada gesto, cada pensamento.\n" +
+  "eu quero que seja você a mãe dos meus filhos, eu anseio por ti, eu quero te abraçar e não largar mais.\n" +
+  "desculpe não estar presente nesse momento tão importante da sua vida, uma nova fase.\n" +
+  "que você aproveite seu dia, prometo que logo logo estarei aí para te abraçar muito.\n" +
+  "obrigado por tudo mesmo, você me anima muito, você não tem ideia o quão eu amo você.\n" +
+  "beijos meu amor, eu te amo demais, curte muito por mim. 💖\n";
+
+// Botão toca a música final e mostra o texto aos poucos
 btnEl.addEventListener("click", ()=>{
   const fadeDuration = 2000;
   const steps = 20;
-  let step = 0;
-  love.volume = 0;
-  love.currentTime = 0;
+  let step=0;
+  love.volume=0;
+  love.currentTime=0;
   love.play().catch(err=>console.log("erro love:",err));
 
-  const fadeInterval = setInterval(()=>{
+  const fadeInterval=setInterval(()=>{
     step++;
-    intro.volume = Math.max(0, 0.3*(1-step/steps));
+    intro.volume = Math.max(0,0.3*(1-step/steps));
     love.volume = Math.min(1, step/steps);
     if(step>=steps){ clearInterval(fadeInterval); intro.pause(); intro.currentTime=0; }
   }, fadeDuration/steps);
 
-  // NOVO TEXTO POÉTICO E PERSONALIZADO
-  textEl.innerHTML =
-    "feliz aniversário, meu amor 💗\n\n" +
-    "hoje celebro não apenas o seu dia, mas o sorriso que ilumina minha vida todos os dias.\n" +
-    "seu sorriso é a curva mais perfeita que já vi, e quando você ri, meu mundo inteiro brilha.\n\n" +
-    "eu me encanto com a sua inteligência, seu jeito de ver a vida e de encarar cada desafio.\n" +
-    "você me inspira a ser melhor, a sonhar mais e a valorizar cada instante ao seu lado.\n\n" +
-    "você é tão especial que às vezes me pego imaginando nossos filhos,\n" +
-    "com seus olhos que refletem toda a beleza da sua alma, sorrindo como você.\n\n" +
-    "cada momento contigo é um pequeno universo que vale a pena existir.\n" +
-    "cada gesto seu, cada palavra, cada olhar me faz te amar ainda mais.\n\n" +
-    "eu quero passar todos os dias da minha vida contigo,\n" +
-    "construindo nossa história, nossos sonhos e nossa família.\n\n" +
-    "desculpe não estar presente em alguns momentos importantes, mas meu coração\n" +
-    "está sempre contigo, torcendo, amando e sonhando junto.\n\n" +
-    "obrigado por ser minha inspiração, minha alegria e minha paz.\n" +
-    "eu te amo mais do que palavras podem expressar, e quero que saiba que\n" +
-    "cada segundo contigo é um tesouro que guardarei para sempre.\n\n" +
-    "beijos meu amor, eu te amo demais, curte muito por mim. 💖\n";
+  textEl.innerHTML = ""; // limpa texto antes de iniciar
+  let j=0;
 
+  function typeFinal(){
+    if(j<finalMessage.length){
+      textEl.innerHTML += finalMessage.charAt(j);
+      j++;
+      let delay=35;
+      if(finalMessage.charAt(j-1)==="\n" || finalMessage.charAt(j-1)==="💖") delay=120;
+      setTimeout(typeFinal, delay);
+      textEl.parentElement.scrollTop = textEl.scrollHeight;
+
+      if(j%80===0) createBouquet();
+    } else {
+      heartEl.style.display="block";
+      createBouquet(2);
+    }
+  }
+
+  typeFinal();
   btnEl.style.display="none";
-  createBouquet(2);
 });
 
+// Função criar bouquet SVG animado
 function createBouquet(count=1){
   for(let j=0;j<count;j++){
     const svgNS="http://www.w3.org/2000/svg";
