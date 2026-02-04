@@ -114,29 +114,6 @@ audio { position: fixed; bottom: 10px; left: 10px; width:1px; height:1px; opacit
   50% { opacity: 1; }
   100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
 }
-
-/* Balões com fotos */
-.balloon {
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid #fff;
-  cursor: pointer;
-  animation: floatUp 8s linear infinite;
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(0) translateX(0); }
-  100% { transform: translateY(-800px) translateX(20px); }
-}
-
-.balloon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 </style>
 </head>
 
@@ -148,7 +125,7 @@ audio { position: fixed; bottom: 10px; left: 10px; width:1px; height:1px; opacit
     <div id="text" class="typing"></div>
   </div>
   <div id="heart" class="heart">❤️</div>
-  <button id="btn" class="btn">Clique aqui 💗</button>
+  <button id="btn" class="btn" onclick="window.location.href='outraPagina.html'">Clique aqui 💗</button>
 </div>
 
 <!-- músicas -->
@@ -189,11 +166,10 @@ function typeWriter(){
     setTimeout(typeWriter, delay);
     textEl.parentElement.scrollTop = textEl.scrollHeight;
 
-    // cria bouquet emergindo a cada 80 caracteres
     if(i%80===0) createBouquet();
   } else {
     heartEl.style.display="block";
-    btnEl.style.display="inline-block"; // botão visível
+    btnEl.style.display="inline-block"; // botão aparece aqui
     createBouquet();
   }
 }
@@ -204,38 +180,6 @@ startEl.addEventListener("click", ()=>{
   intro.play().catch(err=>console.log("erro intro:",err));
   startEl.style.display="none";
   typeWriter();
-});
-
-// botão crossfade e mostrar balões
-btnEl.addEventListener("click", ()=>{
-  const fadeDuration = 2000;
-  const steps = 20;
-  let step=0;
-  love.volume=0;
-  love.currentTime=0;
-  love.play().catch(err=>console.log("erro love:",err));
-
-  const fadeInterval=setInterval(()=>{
-    step++;
-    intro.volume = Math.max(0,0.3*(1-step/steps));
-    love.volume = Math.min(1, step/steps);
-    if(step>=steps){ clearInterval(fadeInterval); intro.pause(); intro.currentTime=0; }
-  }, fadeDuration/steps);
-
-  textEl.innerHTML=
-    "feliz aniversário, meu amor 💗\n\n" +
-    "que a sua vida seja leve,\n" +
-    "que seus sonhos se realizem,\n" +
-    "e que eu possa estar ao seu lado em todos os seus sorrisos e dias difíceis.\n\n" +
-    "eu te amo muito e quero passar todos os dias da minha vida com você,\n" +
-    "construindo nossa história, nossos sonhos e nossa família.\n" +
-    "você é meu amor, minha inspiração e a mulher da minha vida.\n" +
-    "Você é uma garota muito especial para mim, você me alegra em dias cinzas.\n" +
-    "Eu realmente te amo muito de verdade, desculpa não ser uma pessoa boa para ti.\n" +
-    "Quero que você saiba que eu te esperaria 10 anos só para te dar um beijo e abraço.\n";
-
-  createBouquet(2);
-  createBalloons(); // chama os balões
 });
 
 // Função criar bouquet SVG animado
@@ -259,24 +203,6 @@ function createBouquet(count=1){
     setTimeout(()=>svg.remove(),4000);
   }
 }
-
-// Função criar balões com fotos (3 balões)
-function createBalloons(){
-  const fotos = ["foto1.jpg","foto2.jpg","foto3.jpg"]; // coloque os nomes das fotos aqui
-  for(let k=0;k<3;k++){
-    const balloon = document.createElement("div");
-    balloon.className = "balloon";
-    balloon.style.left = `${20 + k*120}px`; // espaçamento horizontal
-    balloon.innerHTML = `<img src="${fotos[k]}" alt="Foto">`;
-    balloon.onclick = ()=> alert(`Você clicou no balão ${k+1}! 💖`);
-    document.body.appendChild(balloon);
-  }
-}
-
-// Botão leva para outra página
-btnEl.onclick = () => {
-  window.location.href = "outraPagina.html"; // troque para o link que quiser
-};
 </script>
 </body>
 </html>
