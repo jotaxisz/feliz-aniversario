@@ -2,10 +2,12 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>feliz aniversário ❤️</title>
 
   <style>
+    * { -webkit-tap-highlight-color: transparent; }
+
     body {
       margin: 0;
       height: 100vh;
@@ -19,13 +21,14 @@
     }
 
     .container {
+      width: 100%;
       max-width: 420px;
       padding: 20px;
       text-align: center;
     }
 
     .typing {
-      font-size: 1.3em;
+      font-size: 1.35em;
       line-height: 1.6em;
       white-space: pre-line;
       border-right: 2px solid #fff;
@@ -40,8 +43,8 @@
 
     .heart {
       display: none;
-      margin-top: 30px;
-      font-size: 5em;
+      margin-top: 35px;
+      font-size: 5.5em;
       animation: pulse 1.4s infinite;
     }
 
@@ -53,74 +56,85 @@
 
     .btn {
       display: none;
-      margin-top: 30px;
-      padding: 12px 30px;
+      margin-top: 35px;
+      padding: 12px 28px;
       border-radius: 30px;
       border: 1px solid #fff;
       background: transparent;
       color: #fff;
       font-size: 1em;
     }
+
+    .hint {
+      position: absolute;
+      bottom: 25px;
+      font-size: 0.8em;
+      opacity: 0.6;
+    }
   </style>
 </head>
 
 <body>
+  <div class="container">
+    <div id="text" class="typing"></div>
+    <div id="heart" class="heart">❤️</div>
+    <button id="btn" class="btn">toca aqui 💗</button>
+  </div>
 
-<div class="container">
-  <div id="text" class="typing"></div>
-  <div id="heart" class="heart">❤️</div>
-  <button id="btn" class="btn">toca aqui 💗</button>
-</div>
+  <div class="hint">feito especialmente pra você 💗</div>
 
-<!-- 🎵 música -->
-<audio id="music">
-  <source src="musica.mp3" type="audio/mpeg">
-</audio>
+  <!-- 🎵 áudio -->
+  <audio id="music" preload="auto">
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
 
-<script>
-  const textEl = document.getElementById("text");
-  const heartEl = document.getElementById("heart");
-  const btnEl = document.getElementById("btn");
-  const music = document.getElementById("music");
+  <script>
+    const textEl = document.getElementById("text");
+    const heartEl = document.getElementById("heart");
+    const btnEl = document.getElementById("btn");
+    const music = document.getElementById("music");
 
-  const message =
-    "pov: hoje é o seu aniversário… ❤️\n\n" +
-    "eu pensei em mil jeitos de te surpreender,\n" +
-    "mas nenhum é maior do que o amor que eu sinto por você.\n\n" +
-    "então eu fiz isso,\n" +
-    "só pra te lembrar que você é única.";
+    const message =
+      "pov: hoje é o seu aniversário… ❤️\n\n" +
+      "e eu pensei em mil jeitos de te surpreender,\n" +
+      "mas nenhum é maior do que o amor que eu sinto por você.\n\n" +
+      "então eu fiz isso,\n" +
+      "só pra te lembrar que você é única.";
 
-  let i = 0;
+    let i = 0;
 
-  function typeWriter() {
-    if (i < message.length) {
-      textEl.innerHTML += message.charAt(i);
-      i++;
-      setTimeout(typeWriter, 55);
-    } else {
-      heartEl.style.display = "block";
-      btnEl.style.display = "inline-block";
+    function typeWriter() {
+      if (i < message.length) {
+        textEl.innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, 55);
+      } else {
+        heartEl.style.display = "block";
+        btnEl.style.display = "inline-block";
+      }
     }
-  }
 
-  // 👉 CLIQUE NO BOTÃO = TOCA A MÚSICA
-  btnEl.addEventListener("click", () => {
-    music.volume = 0.8;
-    music.play();
+    // 👇 CLIQUE REAL = ÁUDIO LIBERADO (ANDROID SAFE)
+    btnEl.addEventListener("click", () => {
+      music.currentTime = 0;
+      music.volume = 1;
 
-    textEl.innerHTML =
-      "feliz aniversário, meu amor 💗\n\n" +
-      "que a sua vida seja leve,\n" +
-      "que seus sonhos se realizem,\n" +
-      "e que eu possa estar ao seu lado\n" +
-      "em todos os seus sorrisos e dias difíceis.\n\n" +
-      "eu te amo.";
+      music.play().catch(() => {
+        console.log("navegador bloqueou o áudio");
+      });
 
-    btnEl.style.display = "none";
-  });
+      textEl.innerHTML =
+        "feliz aniversário, meu amor 💗\n\n" +
+        "que a sua vida seja leve,\n" +
+        "que seus sonhos se realizem,\n" +
+        "e que eu possa estar ao seu lado\n" +
+        "em todos os seus sorrisos e dias difíceis.\n\n" +
+        "eu te amo.";
 
-  typeWriter();
-</script>
+      btnEl.style.display = "none";
+    });
 
+    typeWriter();
+  </script>
 </body>
 </html>
