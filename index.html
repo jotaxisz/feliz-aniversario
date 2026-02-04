@@ -146,20 +146,32 @@
 
     // clique inicial toca intro
     startEl.addEventListener("click", () => {
-      intro.volume = 0.3;
+      intro.volume = 0.3; // volume inicial mais baixo
       intro.play().catch(err => console.log("erro intro:", err));
       startEl.style.display = "none";
       typeWriter();
     });
 
-    // botão toca musica.mp3
+    // botão toca musica.mp3 com crossfade
     btnEl.addEventListener("click", () => {
-      intro.pause();
-      intro.currentTime = 0;
+      const fadeDuration = 2000; // 2 segundos
+      const steps = 20; // número de passos do fade
+      let step = 0;
 
-      love.volume = 1;
+      love.volume = 0;
       love.currentTime = 0;
       love.play().catch(err => console.log("erro love:", err));
+
+      const fadeInterval = setInterval(() => {
+        step++;
+        intro.volume = Math.max(0, 0.3 * (1 - step / steps));
+        love.volume = Math.min(1, step / steps);
+        if (step >= steps) {
+          clearInterval(fadeInterval);
+          intro.pause();
+          intro.currentTime = 0;
+        }
+      }, fadeDuration / steps);
 
       textEl.innerHTML =
         "feliz aniversário, meu amor 💗\n\n" +
