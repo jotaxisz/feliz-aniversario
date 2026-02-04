@@ -1,134 +1,120 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feliz Aniversário ❤️</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<title>feliz aniversário ❤️</title>
+
 <style>
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+* { -webkit-tap-highlight-color: transparent; margin:0; padding:0; box-sizing:border-box;}
 
 body {
-  height:100vh;
-  background:#000;
-  font-family:'Courier New', monospace;
-  color:#fff;
-  overflow:hidden;
-  position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Courier New', monospace;
+  color: #fff;
+  overflow: hidden;
+  position: relative;
 }
 
 .container {
-  width:100%;
-  max-width:420px;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  height:100vh;
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100vh;
 }
 
 .text-wrapper {
-  flex:1;
-  overflow-y:auto;
-  padding-right:10px;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 .typing {
-  font-size:1.3em;
-  line-height:1.6em;
-  white-space:pre-line;
-  border-right:2px solid #fff;
-  padding-right:6px;
+  font-size: 1.35em;
+  line-height: 1.6em;
+  white-space: pre-line;
+  border-right: 2px solid #fff;
+  padding-right: 6px;
 }
 
 @keyframes blink {
-  0%,50%{border-color:#fff;}
-  51%,100%{border-color:transparent;}
+  0%, 50% { border-color: #fff; }
+  51%, 100% { border-color: transparent; }
 }
-.typing{animation:blink 1s infinite;}
+.typing { animation: blink 1s infinite; }
 
-.heart{
-  display:none;
-  margin-top:15px;
-  font-size:5.5em;
-  animation:pulse 1.4s infinite;
+.heart {
+  display: none;
+  margin-top: 15px;
+  font-size: 5.5em;
+  animation: pulse 1.4s infinite;
 }
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.15);}
-  100%{transform:scale(1);}
-}
-
-.btn{
-  display:none;
-  margin-top:15px;
-  padding:12px 28px;
-  border-radius:30px;
-  border:1px solid #fff;
-  background:transparent;
-  color:#fff;
-  font-size:1em;
-  cursor:pointer;
-  z-index:2;
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
 }
 
-#start{
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background:#000;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#fff;
-  font-size:1.2em;
-  text-align:center;
-  cursor:pointer;
-  z-index:10;
-  padding:20px;
+.btn {
+  display: none;
+  margin-top: 15px;
+  padding: 12px 28px;
+  border-radius: 30px;
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  font-size: 1em;
+  z-index: 2;
+  cursor: pointer;
 }
 
-audio{ position:fixed; bottom:10px; left:10px; width:1px; height:1px; opacity:0.01; }
-
-/* Flores animadas */
-.flower{
-  position:absolute;
-  bottom:-50px;
-  width:15px;
-  height:15px;
-  background:pink;
-  border-radius:50%;
-  opacity:0.8;
-  animation: floatUp linear forwards;
-}
-@keyframes floatUp{
-  0%{transform:translateY(0) scale(1); opacity:0.8;}
-  100%{transform:translateY(-120vh) scale(0.5); opacity:0;}
-}
-
-/* Vídeo de fundo */
-#bgVideo{
-  position:fixed;
+#start {
+  position: fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
-  object-fit:cover;
-  z-index:-1;
-  filter:brightness(0.4);
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  cursor:pointer;
+  font-size:1.2em;
+  z-index:10;
+  text-align:center;
+  padding: 20px;
+}
+
+audio { position: fixed; bottom: 10px; left: 10px; width:1px; height:1px; opacity:0.01; }
+
+.flower-bouquet {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 200px;
+  opacity: 0;
+  animation: growBouquet 3s forwards;
+}
+
+@keyframes growBouquet {
+  0% { transform: translateX(-50%) translateY(100px) scale(0); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
 }
 </style>
 </head>
 
 <body>
-
-<!-- Vídeo de fundo (troque o src pelo seu MP4) -->
-<video autoplay muted loop id="bgVideo">
-  <source src="SEU-VIDEO.mp4" type="video/mp4">
-</video>
-
 <div id="start">toque na tela para começar 🎵</div>
 
 <div class="container">
@@ -139,7 +125,6 @@ audio{ position:fixed; bottom:10px; left:10px; width:1px; height:1px; opacity:0.
   <button id="btn" class="btn">toca aqui 💗</button>
 </div>
 
-<!-- Música -->
 <audio id="intro" preload="auto" loop>
   <source src="intro.mp3" type="audio/mpeg">
 </audio>
@@ -152,86 +137,103 @@ const textEl = document.getElementById("text");
 const heartEl = document.getElementById("heart");
 const btnEl = document.getElementById("btn");
 const startEl = document.getElementById("start");
+
 const intro = document.getElementById("intro");
 const love = document.getElementById("love");
 
-const message = 
-"feliz aniversário, meu amor 💗\n\n"+
-"que a sua vida seja leve,\n"+
-"que seus sonhos se realizem,\n"+
-"e que eu possa estar ao seu lado em todos os seus sorrisos e dias difíceis.\n\n"+
-"eu te amo muito e quero passar todos os dias da minha vida com você,\n"+
-"construindo nossa história, nossos sonhos e nossa família.\n"+
-"você é meu amor, minha inspiração e a mulher da minha vida.\n"+
-"você é uma garota muito especial para mim, você me alegra em dias cinzas.\n"+
-"eu realmente te amo muito de verdade, desculpa não ser uma pessoa boa para ti.\n"+
-"quero que você saiba que eu te esperaria 10 anos só para te dar um beijo e abraço.\n"+
-"cada momento ao seu lado é um pequeno universo que vale a pena existir.\n"+
-"que a vida continue nos presenteando com instantes assim, cheios de riso, cumplicidade e amor.\n"+
-"sua inteligência, seu jeito de ver a vida e de encarar cada desafio me inspiram todos os dias.\n"+
-"eu admiro cada detalhe seu, cada gesto, cada pensamento.\n"+
-"eu quero que seja você a mãe dos meus filhos, eu anseio por ti, eu quero te abraçar e não largar mais.\n"+
-"desculpe não estar presente nesse momento tão importante da sua vida, uma nova fase.\n"+
-"que você aproveite seu dia, prometo que logo logo estarei aí para te abraçar muito.\n"+
-"obrigado por tudo mesmo, você me anima muito, você não tem ideia o quão eu amo você.\n"+
-"beijos meu amor, eu te amo dms, curte muito por mim. \n";
+const message =
+  "hoje é o seu aniversário… ❤️\n\n" + 
+  "eu pensei em mil jeitos de te surpreender,\n" +
+  "mas nenhum é maior do que o amor que eu sinto por você.\n\n" +
+  "então eu fiz isso,\n" +
+  "só pra te lembrar que você é a única mulher que mais amei na vida.\n\n" +
+  "seu presente ainda não chegou, mas fiz isso aqui para não passar em branco.\n";
 
 let i = 0;
 
-// Flores animadas
-function createFlower(){
-  const flower = document.createElement('div');
-  flower.className='flower';
-  flower.style.left = Math.random()*100+'vw';
-  flower.style.background = ['pink','red','magenta','purple'][Math.floor(Math.random()*4)];
-  flower.style.width = flower.style.height = 10 + Math.random()*15 +'px';
-  flower.style.animationDuration = 6 + Math.random()*4 + 's';
-  document.body.appendChild(flower);
-  setTimeout(()=>flower.remove(),10000);
-}
-
-// Typewriter com flores
-function typeWriter(){
-  if(i<message.length){
-    textEl.innerHTML+=message.charAt(i);
+function typeWriter() {
+  if (i < message.length) {
+    textEl.innerHTML += message.charAt(i);
     i++;
-    let delay=50;
-    if(message.charAt(i-1)==="❤️" || message.charAt(i-1)==="💗" || message.charAt(i-1)==="\n") delay=120;
-
-    if(Math.random()<0.05) createFlower();
-    textEl.parentElement.scrollTop=textEl.scrollHeight;
+    let delay = 55;
+    if (message.charAt(i-1)==="❤️" || message.charAt(i-1)==="💗" || message.charAt(i-1)==="\n") delay = 120;
     setTimeout(typeWriter, delay);
-  } else{
-    heartEl.style.display="block";
-    btnEl.style.display="inline-block";
+    textEl.parentElement.scrollTop = textEl.scrollHeight;
+
+    if (i % 80 === 0) createBouquet();
+  } else {
+    heartEl.style.display = "block";
+    btnEl.style.display = "inline-block";
+    createBouquet();
   }
 }
 
-// Começar ao clicar
-startEl.addEventListener("click",()=>{
-  intro.volume=0.3;
+startEl.addEventListener("click", ()=>{
+  intro.volume = 0.3;
   intro.play().catch(err=>console.log("erro intro:",err));
-  startEl.style.display="none";
+  startEl.style.display = "none";
   typeWriter();
 });
 
-// Botão de música
-btnEl.addEventListener("click",()=>{
-  const fadeDuration=2000;
-  const steps=20;
-  let step=0;
-  love.volume=0;
-  love.currentTime=0;
+btnEl.addEventListener("click", ()=>{
+  const fadeDuration = 2000;
+  const steps = 20;
+  let step = 0;
+  love.volume = 0;
+  love.currentTime = 0;
   love.play().catch(err=>console.log("erro love:",err));
 
-  const fadeInterval=setInterval(()=>{
+  const fadeInterval = setInterval(()=>{
     step++;
-    intro.volume=Math.max(0,0.3*(1-step/steps));
-    love.volume=Math.min(1, step/steps);
+    intro.volume = Math.max(0, 0.3*(1-step/steps));
+    love.volume = Math.min(1, step/steps);
     if(step>=steps){ clearInterval(fadeInterval); intro.pause(); intro.currentTime=0; }
   }, fadeDuration/steps);
+
+  // NOVO TEXTO POÉTICO E PERSONALIZADO
+  textEl.innerHTML =
+    "feliz aniversário, meu amor 💗\n\n" +
+    "hoje celebro não apenas o seu dia, mas o sorriso que ilumina minha vida todos os dias.\n" +
+    "seu sorriso é a curva mais perfeita que já vi, e quando você ri, meu mundo inteiro brilha.\n\n" +
+    "eu me encanto com a sua inteligência, seu jeito de ver a vida e de encarar cada desafio.\n" +
+    "você me inspira a ser melhor, a sonhar mais e a valorizar cada instante ao seu lado.\n\n" +
+    "você é tão especial que às vezes me pego imaginando nossos filhos,\n" +
+    "com seus olhos que refletem toda a beleza da sua alma, sorrindo como você.\n\n" +
+    "cada momento contigo é um pequeno universo que vale a pena existir.\n" +
+    "cada gesto seu, cada palavra, cada olhar me faz te amar ainda mais.\n\n" +
+    "eu quero passar todos os dias da minha vida contigo,\n" +
+    "construindo nossa história, nossos sonhos e nossa família.\n\n" +
+    "desculpe não estar presente em alguns momentos importantes, mas meu coração\n" +
+    "está sempre contigo, torcendo, amando e sonhando junto.\n\n" +
+    "obrigado por ser minha inspiração, minha alegria e minha paz.\n" +
+    "eu te amo mais do que palavras podem expressar, e quero que saiba que\n" +
+    "cada segundo contigo é um tesouro que guardarei para sempre.\n\n" +
+    "beijos meu amor, eu te amo demais, curte muito por mim. 💖\n";
+
   btnEl.style.display="none";
+  createBouquet(2);
 });
+
+function createBouquet(count=1){
+  for(let j=0;j<count;j++){
+    const svgNS="http://www.w3.org/2000/svg";
+    const svg=document.createElementNS(svgNS,"svg");
+    svg.setAttribute("class","flower-bouquet");
+    svg.setAttribute("width","120");
+    svg.setAttribute("height","200");
+    svg.innerHTML=`<circle cx="60" cy="180" r="0" fill="transparent">
+    <animate attributeName="r" from="0" to="10" dur="3s" fill="freeze"/>
+    </circle>
+    <circle cx="50" cy="160" r="0" fill="red">
+    <animate attributeName="r" from="0" to="10" dur="3s" fill="freeze"/>
+    </circle>
+    <circle cx="70" cy="160" r="0" fill="pink">
+    <animate attributeName="r" from="0" to="10" dur="3s" fill="freeze"/>
+    </circle>`;
+    document.body.appendChild(svg);
+    setTimeout(()=>svg.remove(),4000);
+  }
+}
 </script>
 </body>
 </html>
